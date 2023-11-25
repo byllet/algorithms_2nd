@@ -1,38 +1,30 @@
 #include "topology_sort.hpp"
 
-#include <iostream>
-#include <vector>
+#include <Graph.hpp>
+#include <stack>
 
-Graph::Graph(
-    std::unordered_map<unsigned int, std::vector<unsigned int>> graph) {
-  graph_.resize(graph.size() + 1);
-  for (auto i = graph.begin(); i != graph.end(); ++i) {
-    graph_[i->first] = i->second;
-  }
+GraphWithTopologySort::GraphWithTopologySort(
+    std::unordered_map<size_t, std::vector<size_t>> vertexes)
+    : Graph(vertexes) {}
+
+StackFunction::StackFunction() : topology_stack(std::stack<size_t>()) {}
+
+void StackFunction::OnEdge(unsigned long long vertex) {}
+
+void StackFunction::OnVertexBefore(unsigned long long vertex) {}
+
+void StackFunction::OnVertexAfter(unsigned long long vertex) {
+  topology_stack.push(vertex);
 }
 
-void Graph::DFS(unsigned int current_node, std::vector<bool>& visited,
-                std::stack<unsigned int>& topology_stack) {
-  if (visited[current_node]) {
-    return;
-  }
-  visited[current_node] = true;
-  for (auto u : graph_[current_node]) {
-    if (!visited[u]) {
-      DFS(u, visited, topology_stack);
-    }
-  }
-  topology_stack.push(current_node);
-}
-
-std::vector<unsigned int> Graph::TopologySort(unsigned int start_node) {
-  std::vector<bool> visited(graph_.size(), false);
-  std::stack<unsigned int> topology_stack;
-  DFS(start_node, visited, topology_stack);
+std::vector<unsigned int> GraphWithTopologySort::TopologySort(size_t vertex) {
+  colors_.assign(graph_.size(), white);
+  StackFunction stack_function;
+  DFS(vertex, &stack_function);
   std::vector<unsigned int> res;
-  for (unsigned int i = 0; i < topology_stack.size();) {
-    res.push_back(topology_stack.top());
-    topology_stack.pop();
+  for (unsigned int i = 0; i < stack_function.topology_stack.size();) {
+    res.push_back(stack_function.topology_stack.top());
+    stack_function.topology_stack.pop();
   }
   return res;
 }

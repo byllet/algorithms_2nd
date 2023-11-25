@@ -1,16 +1,22 @@
 #pragma once
+
+#include <AbstractFunction.hpp>
+#include <Graph.hpp>
 #include <stack>
-#include <string>
-#include <unordered_map>
 #include <vector>
 
-class Graph {
+class GraphWithTopologySort : public Graph {
  public:
-  Graph(std::unordered_map<unsigned int, std::vector<unsigned int>> nodes);
-  std::vector<unsigned int> TopologySort(unsigned int start_node);
+  GraphWithTopologySort(
+      std::unordered_map<size_t, std::vector<size_t>> vertexes);
+  std::vector<unsigned int> TopologySort(size_t start_node);
+};
 
- private:
-  void DFS(unsigned int current_node, std::vector<bool>& colors,
-           std::stack<unsigned int>& topology_stack);
-  std::vector<std::vector<unsigned int>> graph_;
+class StackFunction : public AbstractFunction {
+ public:
+  StackFunction();
+  void OnEdge(unsigned long long vertex) override;
+  void OnVertexBefore(unsigned long long vertex) override;
+  void OnVertexAfter(unsigned long long vertex) override;
+  std::stack<size_t> topology_stack;
 };
