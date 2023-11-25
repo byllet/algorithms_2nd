@@ -1,4 +1,4 @@
-#include "Graph.hpp"
+#include "graph.hpp"
 
 Graph::Graph(std::unordered_map<size_t, std::vector<size_t>> vertexes) {
   colors_ = std::vector<Color>(vertexes.size());

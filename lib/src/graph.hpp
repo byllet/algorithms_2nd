@@ -1,11 +1,9 @@
 #pragma once
 
-#pragma once
-
 #include <unordered_map>
 #include <vector>
 
-#include "AbstractFunction.hpp"
+#include "abstract_function.hpp"
 
 enum Color { white, black, gray };
 

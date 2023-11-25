@@ -1,6 +1,5 @@
 #include "topology_sort.hpp"
 
-#include <Graph.hpp>
 #include <stack>
 
 GraphWithTopologySort::GraphWithTopologySort(

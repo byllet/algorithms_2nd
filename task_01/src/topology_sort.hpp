@@ -1,9 +1,10 @@
 #pragma once
 
-#include <AbstractFunction.hpp>
-#include <Graph.hpp>
 #include <stack>
 #include <vector>
+
+#include "abstract_function.hpp"
+#include "graph.hpp"
 
 class GraphWithTopologySort : public Graph {
  public:
