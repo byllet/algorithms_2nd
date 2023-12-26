@@ -1,15 +1,17 @@
 #pragma once
 
+#include <graph.hpp>
 #include <stack>
 #include <vector>
-
-#include "abstract_function.hpp"
-#include "graph.hpp"
 
 class GraphWithTopologySort : public Graph {
  public:
   GraphWithTopologySort(
-      std::unordered_map<size_t, std::vector<size_t>> vertexes);
+      std::unordered_map<unsigned long long, std::vector<unsigned long long>>&
+          adjacency_list);
+  GraphWithTopologySort(
+      std::unordered_map<unsigned long long, std::vector<unsigned long long>>
+          adjacency_list);
   std::vector<unsigned int> TopologySort(size_t start_node);
 };
 

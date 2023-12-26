@@ -3,8 +3,14 @@
 #include <stack>
 
 GraphWithTopologySort::GraphWithTopologySort(
-    std::unordered_map<size_t, std::vector<size_t>> vertexes)
-    : Graph(vertexes) {}
+    std::unordered_map<unsigned long long, std::vector<unsigned long long>>&
+        adjacency_list)
+    : Graph(adjacency_list) {}
+
+GraphWithTopologySort::GraphWithTopologySort(
+    std::unordered_map<unsigned long long, std::vector<unsigned long long>>
+        adjacency_list)
+    : Graph(adjacency_list) {}
 
 StackFunction::StackFunction() : topology_stack(std::stack<size_t>()) {}
 
