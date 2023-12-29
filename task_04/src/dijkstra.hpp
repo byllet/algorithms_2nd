@@ -1,6 +1,7 @@
 #pragma once
 
-#include <graph.hpp>
 #include <vector>
+#include <weighted_graph.hpp>
 
-std::vector<long long> Dijkstra(Graph& g, unsigned long long start_vertex);
+std::vector<long long> Dijkstra(WeightedGraph& graph,
+                                unsigned long start_vertex);

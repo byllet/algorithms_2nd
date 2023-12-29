@@ -7,12 +7,10 @@
 class GraphWithTopologySort : public Graph {
  public:
   GraphWithTopologySort(
-      std::unordered_map<unsigned long long, std::vector<unsigned long long>>&
-          adjacency_list);
+      std::unordered_map<size_t, std::vector<size_t>>& adjacency_list);
   GraphWithTopologySort(
-      std::unordered_map<unsigned long long, std::vector<unsigned long long>>
-          adjacency_list);
-  std::vector<unsigned int> TopologySort(size_t start_node);
+      std::unordered_map<size_t, std::vector<size_t>> adjacency_list);
+  std::vector<size_t> TopologySort(size_t start_node);
 };
 
 class StackFunction : public AbstractFunction {
