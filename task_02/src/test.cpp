@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
 
-TEST(TopologySort, Simple) {
-  ASSERT_EQ(1, 1);  // Stack []
-}
+#include "bridge_finder.hpp"
+
+TEST(BridgeFinder, Simple) {}
