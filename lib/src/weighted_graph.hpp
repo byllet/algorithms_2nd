@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <vector>
 
+#include "adjacency_list.hpp"
+
 struct DistVertex {
   long long dist;
   size_t vertex;
@@ -15,7 +17,7 @@ class WeightedGraph {
   size_t Size() const;
 
  private:
-  std::vector<std::vector<DistVertex>> graph_;
+  AdjacencyList<DistVertex> graph_;
 };
 
 bool operator<(const DistVertex& dv1, const DistVertex& dv2);

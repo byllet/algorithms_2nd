@@ -1,8 +1,7 @@
 #include "graph.hpp"
 
-Graph::Graph(std::unordered_map<size_t, std::vector<size_t>> adjacency_list) {
-  colors_ = std::vector<Color>(adjacency_list.size());
-  graph_.resize(adjacency_list.size() + 1);
+Graph::Graph(std::unordered_map<size_t, std::vector<size_t>> adjacency_list)
+    : graph_(adjacency_list.size() + 1), colors_(adjacency_list.size()) {
   for (auto& u : adjacency_list) {
     graph_[u.first] = u.second;
   }

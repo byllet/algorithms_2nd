@@ -3,8 +3,7 @@
 #include <limits>
 #include <set>
 #include <vector>
-
-#include "weighted_graph.hpp"
+#include <weighted_graph.hpp>
 
 std::vector<long long> Dijkstra(WeightedGraph& graph, size_t start_vertex) {
   std::vector<long long> distances(graph.Size(),

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "abstract_function.hpp"
+#include "adjacency_list.hpp"
 
 enum Color { white, black, gray };
 
@@ -19,5 +20,5 @@ class Graph {
   void BFS(size_t vertex, AbstractFunction* fucn);
 
   std::vector<Color> colors_;
-  std::vector<std::vector<size_t>> graph_;
+  AdjacencyList<size_t> graph_;
 };
