@@ -2,29 +2,24 @@
 
 #include <cstddef>
 #include <stack>
+#include <vector>
 
-GraphWithTopologySort::GraphWithTopologySort(
-    std::unordered_map<size_t, std::vector<size_t>>& adjacency_list)
-    : Graph(adjacency_list) {}
+#include "graph.hpp"
 
-GraphWithTopologySort::GraphWithTopologySort(
-    std::unordered_map<size_t, std::vector<size_t>> adjacency_list)
-    : Graph(adjacency_list) {}
+class StackFunction : public AbstractFunction {
+ public:
+  StackFunction() : topology_stack{std::stack<size_t>()} {}
+  void OnEdgeNotVisited(size_t from, size_t to) override {}
+  void OnEdgeVisited(size_t from, size_t to) override {}
+  void OnVertexBefore(size_t vertex) override {}
+  void OnVertexAfter(size_t vertex) override { topology_stack.push(vertex); }
+  std::stack<size_t> topology_stack;
+};
 
-StackFunction::StackFunction() : topology_stack{std::stack<size_t>()} {}
-
-void StackFunction::OnEdge(unsigned long long vertex) {}
-
-void StackFunction::OnVertexBefore(unsigned long long vertex) {}
-
-void StackFunction::OnVertexAfter(unsigned long long vertex) {
-  topology_stack.push(vertex);
-}
-
-std::vector<size_t> GraphWithTopologySort::TopologySort(size_t vertex) {
-  colors_.assign(graph_.size(), white);
+std::vector<size_t> TopologySort(Graph& graph, size_t vertex) {
+  graph.ResetColors();
   StackFunction stack_function;
-  DFS(vertex, &stack_function);
+  graph.DFS(vertex, -1, &stack_function);
   std::vector<size_t> result;
   for (unsigned int i = 0; i < stack_function.topology_stack.size();) {
     result.push_back(stack_function.topology_stack.top());

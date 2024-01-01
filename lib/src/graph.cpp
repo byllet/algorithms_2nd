@@ -1,13 +1,9 @@
 #include "graph.hpp"
 
-Graph::Graph(std::unordered_map<size_t, std::vector<size_t>> adjacency_list)
-    : graph_(adjacency_list.size() + 1), colors_(adjacency_list.size()) {
-  for (auto& u : adjacency_list) {
-    graph_[u.first] = u.second;
-  }
-}
+Graph::Graph(std::vector<std::vector<size_t>> adjacency_list)
+    : graph_{adjacency_list}, colors_(adjacency_list.size(), white) {}
 
-void Graph::DFS(size_t vertex, AbstractFunction* func) {
+void Graph::DFS(size_t vertex, size_t parrent, AbstractFunction* func) {
   if (colors_[vertex] != white) {
     return;
   }
@@ -16,9 +12,14 @@ void Graph::DFS(size_t vertex, AbstractFunction* func) {
   func->OnVertexBefore(vertex);
 
   for (auto u : graph_[vertex]) {
+    if (u == parrent) {
+      continue;
+    }
     if (colors_[u] == white) {
-      func->OnEdge(vertex);
-      DFS(u, func);
+      DFS(u, vertex, func);
+      func->OnEdgeNotVisited(vertex, u);
+    } else {
+      func->OnEdgeVisited(vertex, u);
     }
   }
 
@@ -31,3 +32,5 @@ void Graph::BFS(size_t vertex, AbstractFunction* func) {}
 std::vector<size_t>& Graph::operator[](const size_t i) { return graph_[i]; }
 
 size_t Graph::Size() const { return graph_.size(); }
+
+void Graph::ResetColors() { colors_.assign(graph_.size(), white); }
