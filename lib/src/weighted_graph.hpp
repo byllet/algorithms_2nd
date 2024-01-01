@@ -3,21 +3,21 @@
 #include <cstddef>
 #include <vector>
 
-#include "adjacency_list.hpp"
-
-struct DistVertex {
-  long long dist;
-  size_t vertex;
+struct Vertex {
+  size_t number;
+  long long weight;
 };
 
 class WeightedGraph {
  public:
   WeightedGraph(std::vector<std::vector<long long>> adjacency_matrix);
-  std::vector<DistVertex>& operator[](const DistVertex& v);
+  std::vector<Vertex>& operator[](const Vertex& v);
+  std::vector<Vertex>& operator[](const size_t i);
+  void AddNewVertex(std::vector<Vertex> dv);
   size_t Size() const;
 
  private:
-  AdjacencyList<DistVertex> graph_;
+  std::vector<std::vector<Vertex>> graph_;
 };
 
-bool operator<(const DistVertex& dv1, const DistVertex& dv2);
+bool operator<(const Vertex& dv1, const Vertex& dv2);

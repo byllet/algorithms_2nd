@@ -1,10 +1,10 @@
 
 #include <gtest/gtest.h>
 
+#include <dijkstra.hpp>
+#include <limits>
 #include <vector>
-
-#include "dijkstra.hpp"
-#include "weighted_graph.hpp"
+#include <weighted_graph.hpp>
 
 TEST(Dijkstra, Simple) {
   WeightedGraph wg1({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
@@ -21,10 +21,9 @@ TEST(Dijkstra, Simple) {
       {{0, 6, 14, 11}, {7, 0, 9, 8}, {7, 0, 0, 10}, {15, 8, 7, 0}});
   ASSERT_EQ(Dijkstra(wg3, 0), (std::vector<long long>({0, 6, 14, 11})));
 
+  long long INF = std::numeric_limits<long long>::max();
   WeightedGraph wg4({{0, 0, 0}, {1, 0, 1}, {1, 1, 0}});
-  ASSERT_EQ(
-      Dijkstra(wg4, 0),
-      (std::vector<long long>({0, 9223372036854775807, 9223372036854775807})));
+  ASSERT_EQ(Dijkstra(wg4, 0), (std::vector<long long>({0, INF, INF})));
 }
 
 TEST(Dijkstra, Medium) {
