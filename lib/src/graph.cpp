@@ -3,16 +3,16 @@
 Graph::Graph(std::vector<std::vector<size_t>> adjacency_list)
     : graph_{adjacency_list}, colors_(adjacency_list.size(), white) {}
 
-void Graph::DFS(size_t vertex, size_t parrent, AbstractFunction* func) {
+void Graph::DFS(size_t vertex, size_t p, AbstractFunction* func) {
   if (colors_[vertex] != white) {
     return;
   }
 
   colors_[vertex] = gray;
-  func->OnVertexBefore(vertex);
+  func->OnVertexBefore(vertex, p);
 
   for (auto u : graph_[vertex]) {
-    if (u == parrent) {
+    if (u == p) {
       continue;
     }
     if (colors_[u] == white) {
@@ -24,7 +24,7 @@ void Graph::DFS(size_t vertex, size_t parrent, AbstractFunction* func) {
   }
 
   colors_[vertex] = black;
-  func->OnVertexAfter(vertex);
+  func->OnVertexAfter(vertex, p);
 }
 
 void Graph::BFS(size_t vertex, AbstractFunction* func) {}

@@ -11,8 +11,10 @@ class StackFunction : public AbstractFunction {
   StackFunction() : topology_stack{std::stack<size_t>()} {}
   void OnEdgeNotVisited(size_t from, size_t to) override {}
   void OnEdgeVisited(size_t from, size_t to) override {}
-  void OnVertexBefore(size_t vertex) override {}
-  void OnVertexAfter(size_t vertex) override { topology_stack.push(vertex); }
+  void OnVertexBefore(size_t vertex, size_t p) override {}
+  void OnVertexAfter(size_t vertex, size_t p) override {
+    topology_stack.push(vertex);
+  }
   std::stack<size_t> topology_stack;
 };
 
