@@ -42,6 +42,12 @@ void Graph<T>::SetAdjacencyList(std::vector<std::vector<T>>& adjacency_list) {
 }
 
 template <typename T>
+void Graph<T>::SetAdjacencyList(std::vector<std::vector<T>> adjacency_list) {
+  colors_.assign(adjacency_list.size(), white);
+  graph_ = adjacency_list;
+}
+
+template <typename T>
 void Graph<T>::SetAdjacencyMatrix(
     std::vector<std::vector<long long>> adjacency_matrix) {
   graph_.resize(adjacency_matrix.size());
@@ -55,22 +61,12 @@ void Graph<T>::SetAdjacencyMatrix(
 }
 
 template <typename T>
-void Graph<T>::SetAdjacencyList(std::vector<std::vector<T>> adjacency_list) {
-  colors_.assign(adjacency_list.size(), white);
-  graph_ = adjacency_list;
-}
-
-template <typename T>
 void Graph<T>::DFS(size_t vertex, size_t p, bool is_root,
                    AbstractFunction* func) {
-  if (colors_[vertex] != white) {
-    return;
-  }
-
   colors_[vertex] = gray;
   func->OnVertexBefore(vertex, p);
 
-  for (auto u : graph_[vertex]) {
+  for (const auto& u : graph_[vertex]) {
     if (u == p) {
       continue;
     }

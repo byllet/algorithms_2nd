@@ -61,8 +61,25 @@ TEST(BridgeFinder, NoBridges) {
   ASSERT_EQ(FindBrindges(graph), (std::vector<std::pair<size_t, size_t>>{}));
 }
 
-// TEST(CutVertexesFinder, Simple) {
-//   Graph graph({{1, 2, 3, 4}, {0, 2}, {0, 1}, {0, 4}, {0, 3}});
-//   std::vector<size_t> res = FindCutVertexes(graph);
-//   ASSERT_EQ(res, (std::vector<size_t>{}));
-// }
+TEST(CutVertexesFinder, ZeroCuts) {
+  Graph<size_t> graph;
+  graph.SetAdjacencyList({{1}, {2}, {0}});
+  std::vector<size_t> res = FindCutVertexes(graph);
+  ASSERT_EQ(res, (std::vector<size_t>{}));
+}
+
+TEST(CutVertexesFinder, OneCut) {
+  Graph<size_t> graph;
+  graph.SetAdjacencyList({{1, 2, 3, 4}, {0, 2}, {1, 0}, {0, 4}, {0, 3}});
+  std::vector<size_t> res = FindCutVertexes(graph);
+  ASSERT_EQ(res, (std::vector<size_t>{0}));
+}
+
+TEST(CutVertexesFinder, TwoCuts) {
+  Graph<size_t> graph;
+  graph.SetAdjacencyList(
+      {{1, 2, 3, 4}, {0, 2}, {1, 0, 5, 6}, {0, 4}, {0, 3}, {5, 6}, {5, 2}});
+  std::vector<size_t> res = FindCutVertexes(graph);
+  std::sort(res.begin(), res.end());
+  ASSERT_EQ(res, (std::vector<size_t>{0, 2}));
+}

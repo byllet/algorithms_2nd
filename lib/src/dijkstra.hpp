@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <vector>
 
 #include "graph.hpp"
@@ -9,5 +10,4 @@ struct Vertex {
   long long weight;
 };
 
-std::vector<long long> Dijkstra(Graph<Vertex>& graph,
-                                unsigned long start_vertex);
+std::vector<long long> Dijkstra(Graph<Vertex>& graph, size_t start_vertex);

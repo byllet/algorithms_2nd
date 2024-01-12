@@ -3,35 +3,30 @@
 #include <cstddef>
 #include <vector>
 
-class FindCutVertexesFunction : public AbstractFunction {
+#include "tin_up_function.hpp"
+
+class FindCutVertexesFunction : public TinUpFunction {
  public:
-  FindCutVertexesFunction(size_t n) : timer_{0}, tin_(n), up_(n) {}
+  FindCutVertexesFunction(size_t n) : TinUpFunction(n) {}
 
   void OnEdgeNotVisited(size_t from, size_t to, bool is_root) override {
     up_[from] = std::min(up_[from], up_[to]);
-    if (up_[to] >= tin_[from]) {
+    if (up_[to] >= tin_[from] && !is_root) {
       IsCutVertex(from);
     }
+    children_[from]++;
   }
 
-  void OnEdgeVisited(size_t from, size_t to, bool is_root) override {
-    up_[from] = std::min(up_[from], tin_[to]);
+  void OnVertexAfter(size_t vertex, size_t p) override {
+    if (p == -1 && children_[vertex] > 1) {
+      IsCutVertex(vertex);
+    }
   }
-
-  void OnVertexBefore(size_t vertex, size_t p) override {
-    tin_[vertex] = up_[vertex] = timer_++;
-  }
-
-  void OnVertexAfter(size_t vertex, size_t p) override {}
-
-  void IsCutVertex(size_t v) { cut_vertexes_.push_back(v); }
 
   std::vector<size_t> GetCutVertexes() { return cut_vertexes_; }
 
  private:
-  unsigned long long timer_;
-  std::vector<unsigned long long> tin_;
-  std::vector<unsigned long long> up_;
+  void IsCutVertex(size_t v) { cut_vertexes_.push_back(v); }
   std::vector<size_t> cut_vertexes_;
 };
 
