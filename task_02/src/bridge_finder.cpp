@@ -9,14 +9,14 @@ class FindBridgesFunction : public AbstractFunction {
  public:
   FindBridgesFunction(size_t n) : timer_{0}, tin_(n), up_(n), bridges_(0) {}
 
-  void OnEdgeNotVisited(size_t from, size_t to) override {
+  void OnEdgeNotVisited(size_t from, size_t to, bool is_root) override {
     up_[from] = std::min(up_[from], up_[to]);
     if (up_[to] > tin_[from]) {
       IsBridge(to, from);
     }
   }
 
-  void OnEdgeVisited(size_t from, size_t to) override {
+  void OnEdgeVisited(size_t from, size_t to, bool is_root) override {
     up_[from] = std::min(up_[from], tin_[to]);
   }
 
@@ -42,14 +42,14 @@ class FindBridgesFunction : public AbstractFunction {
   std::vector<std::pair<size_t, size_t>> bridges_;
 };
 
-void InnerFindBridges(Graph& graph,
+void InnerFindBridges(Graph<size_t>& graph,
                       std::vector<std::pair<size_t, size_t>>& bridges_) {
   FindBridgesFunction f(graph.Size());
-  graph.DFS(0, -1, &f);
+  graph.DFS(0, -1, true, &f);
   bridges_ = f.GetBridges();
 }
 
-std::vector<std::pair<size_t, size_t>> FindBrindges(Graph& graph) {
+std::vector<std::pair<size_t, size_t>> FindBrindges(Graph<size_t>& graph) {
   std::vector<std::pair<size_t, size_t>> bridges_;
   InnerFindBridges(graph, bridges_);
   return bridges_;

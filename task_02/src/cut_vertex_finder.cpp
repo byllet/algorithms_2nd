@@ -5,17 +5,16 @@
 
 class FindCutVertexesFunction : public AbstractFunction {
  public:
-  FindCutVertexesFunction(size_t n)
-      : timer_{0}, tin_(n), up_(n), childred_(n, 0) {}
+  FindCutVertexesFunction(size_t n) : timer_{0}, tin_(n), up_(n) {}
 
-  void OnEdgeNotVisited(size_t from, size_t to) override {
+  void OnEdgeNotVisited(size_t from, size_t to, bool is_root) override {
     up_[from] = std::min(up_[from], up_[to]);
     if (up_[to] >= tin_[from]) {
       IsCutVertex(from);
     }
   }
 
-  void OnEdgeVisited(size_t from, size_t to) override {
+  void OnEdgeVisited(size_t from, size_t to, bool is_root) override {
     up_[from] = std::min(up_[from], tin_[to]);
   }
 
@@ -33,17 +32,17 @@ class FindCutVertexesFunction : public AbstractFunction {
   unsigned long long timer_;
   std::vector<unsigned long long> tin_;
   std::vector<unsigned long long> up_;
-  std::vector<unsigned long long> childred_;
   std::vector<size_t> cut_vertexes_;
 };
 
-void InnerFindCutVertexes(Graph& graph, std::vector<size_t>& cut_vertexes) {
+void InnerFindCutVertexes(Graph<size_t>& graph,
+                          std::vector<size_t>& cut_vertexes) {
   FindCutVertexesFunction f(graph.Size());
-  graph.DFS(0, -1, &f);
+  graph.DFS(0, -1, true, &f);
   cut_vertexes = f.GetCutVertexes();
 }
 
-std::vector<size_t> FindCutVertexes(Graph& graph) {
+std::vector<size_t> FindCutVertexes(Graph<size_t>& graph) {
   std::vector<size_t> cut_vertexes;
   InnerFindCutVertexes(graph, cut_vertexes);
   return cut_vertexes;

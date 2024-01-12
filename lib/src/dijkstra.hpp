@@ -2,7 +2,12 @@
 
 #include <vector>
 
-#include "weighted_graph.hpp"
+#include "graph.hpp"
 
-std::vector<long long> Dijkstra(WeightedGraph& graph,
+struct Vertex {
+  size_t number;
+  long long weight;
+};
+
+std::vector<long long> Dijkstra(Graph<Vertex>& graph,
                                 unsigned long start_vertex);

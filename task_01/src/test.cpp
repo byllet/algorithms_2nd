@@ -7,13 +7,15 @@
 #include "topology_sort.hpp"
 
 TEST(TopologySort, Simple) {
-  Graph test1({{1, 2}, {3, 4}, {}, {2, 4}, {}});
+  Graph<size_t> test1;
+  test1.SetAdjacencyList({{1, 2}, {3, 4}, {}, {2, 4}, {}});
   ASSERT_EQ((TopologySort(test1, 0)), (std::vector<size_t>{0, 1, 3, 4, 2}));
   ASSERT_EQ((TopologySort(test1, 1)), (std::vector<size_t>{1, 3, 4, 2}));
 }
 
 TEST(TopologySort, Middle) {
-  Graph test1({{3, 4, 2}, {3, 4}, {1}, {4, 2, 0}, {3}});
+  Graph<size_t> test1;
+  test1.SetAdjacencyList({{3, 4, 2}, {3, 4}, {1}, {4, 2, 0}, {3}});
   ASSERT_EQ((TopologySort(test1, 0)), (std::vector<size_t>{0, 3, 2, 1, 4}));
   ASSERT_EQ((TopologySort(test1, 1)), (std::vector<size_t>{1, 3, 0, 2, 4}));
   ASSERT_EQ((TopologySort(test1, 2)), (std::vector<size_t>{2, 1, 3, 0, 4}));

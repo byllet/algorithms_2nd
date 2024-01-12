@@ -1,20 +1,18 @@
 #include "lca.hpp"
 
-#include <abstract_function.hpp>
 #include <cstddef>
 #include <graph.hpp>
-#include <utility>
 #include <vector>
 
 class LcaFunction : public AbstractFunction {
  public:
   LcaFunction(size_t n, size_t root) : heigths_(n) { heigths_[root] = 0; }
 
-  void OnEdgeNotVisited(size_t from, size_t to) override {
+  void OnEdgeNotVisited(size_t from, size_t to, bool is_root) override {
     lca_dfs_list_.push_back(from);
   }
 
-  void OnEdgeVisited(size_t from, size_t to) override {}
+  void OnEdgeVisited(size_t from, size_t to, bool is_root) override {}
 
   void OnVertexBefore(size_t vertex, size_t p) override {
     lca_dfs_list_.push_back(vertex);
@@ -36,9 +34,9 @@ class LcaFunction : public AbstractFunction {
   std::vector<long long> heigths_;
 };
 
-LCA::LCA(Graph& graph, size_t root) : heigths_(graph.Size()) {
+LCA::LCA(Graph<size_t>& graph, size_t root) : heigths_(graph.Size()) {
   LcaFunction f(graph.Size(), root);
-  graph.DFS(root, -1, &f);
+  graph.DFS(root, -1, true, &f);
 
   dfs_list_ = f.GetDfsList();
   heigths_ = f.GetHeights();

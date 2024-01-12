@@ -6,7 +6,7 @@
 
 class LCA {
  public:
-  LCA(Graph& graph, size_t root);
+  LCA(Graph<size_t>& graph, size_t root);
   size_t GetLCA(size_t a, size_t b);
 
  private:

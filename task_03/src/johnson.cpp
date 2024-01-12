@@ -1,11 +1,10 @@
 #include "johnson.hpp"
 
 #include <cstddef>
-#include <dijkstra.hpp>
 #include <limits>
 #include <stdexcept>
 
-bool FordBellman(WeightedGraph& graph, size_t s,
+bool FordBellman(Graph<Vertex>& graph, size_t s,
                  std::vector<long long>& distances) {
   long long INF = std::numeric_limits<long long>::max();
 
@@ -37,14 +36,14 @@ bool FordBellman(WeightedGraph& graph, size_t s,
   return true;
 }
 
-std::vector<std::vector<long long>> Johnson(WeightedGraph& graph) {
+std::vector<std::vector<long long>> Johnson(Graph<Vertex>& graph) {
   long long INF = std::numeric_limits<long long>::max();
   size_t size = graph.Size();
   std::vector<std::vector<long long>> result(size,
                                              std::vector<long long>(size, INF));
 
   std::vector<long long> potencials(size + 1, 0);
-  WeightedGraph new_graph = graph;
+  Graph<Vertex> new_graph = graph;
 
   std::vector<Vertex> fictitious_vertex;
   for (size_t i = 0; i < size; ++i) {
