@@ -14,16 +14,16 @@ class LcaFunction : public AbstractFunction {
 
   void OnEdgeVisited(size_t from, size_t to, bool is_root) override {}
 
-  void OnVertexBefore(size_t vertex, size_t p) override {
+  void OnVertexBefore(size_t vertex, size_t parent) override {
     lca_dfs_list_.push_back(vertex);
-    if (p == -1) {
+    if (parent == -1) {
       heigths_[vertex] = 0;
     } else {
-      heigths_[vertex] = heigths_[p] + 1;
+      heigths_[vertex] = heigths_[parent] + 1;
     }
   }
 
-  void OnVertexAfter(size_t vertex, size_t p) override {}
+  void OnVertexAfter(size_t vertex, size_t parent) override {}
 
   std::vector<size_t> GetDfsList() { return lca_dfs_list_; }
 
@@ -69,14 +69,15 @@ void LCA::BuildTree(size_t i, size_t left, size_t right) {
   }
 }
 
-size_t LCA::MinFromTree(size_t i, size_t s_left, size_t s_right, size_t l,
-                        size_t r) {
-  if (s_left == l && s_right == r) return segments_tree_[i];
+size_t LCA::MinFromTree(size_t i, size_t s_left, size_t s_right, size_t left,
+                        size_t right) {
+  if (s_left == left && s_right == right) return segments_tree_[i];
   int s_mid = (s_left + s_right) >> 1;
-  if (r <= s_mid) return MinFromTree(i + i, s_left, s_mid, l, r);
-  if (l > s_mid) return MinFromTree(i + i + 1, s_mid + 1, s_right, l, r);
-  int ans1 = MinFromTree(i + i, s_left, s_mid, l, s_mid);
-  int ans2 = MinFromTree(i + i + 1, s_mid + 1, s_right, s_mid + 1, r);
+  if (right <= s_mid) return MinFromTree(i + i, s_left, s_mid, left, right);
+  if (left > s_mid)
+    return MinFromTree(i + i + 1, s_mid + 1, s_right, left, right);
+  int ans1 = MinFromTree(i + i, s_left, s_mid, left, s_mid);
+  int ans2 = MinFromTree(i + i + 1, s_mid + 1, s_right, s_mid + 1, right);
   return heigths_[ans1] < heigths_[ans2] ? ans1 : ans2;
 }
 

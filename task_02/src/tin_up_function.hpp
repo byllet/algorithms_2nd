@@ -11,7 +11,7 @@ class TinUpFunction : public AbstractFunction {
     up_[from] = std::min(up_[from], tin_[to]);
   }
 
-  void OnVertexBefore(size_t vertex, size_t p) override {
+  void OnVertexBefore(size_t vertex, size_t parent) override {
     tin_[vertex] = up_[vertex] = timer_++;
   }
 

@@ -17,8 +17,8 @@ class FindCutVertexesFunction : public TinUpFunction {
     children_[from]++;
   }
 
-  void OnVertexAfter(size_t vertex, size_t p) override {
-    if (p == -1 && children_[vertex] > 1) {
+  void OnVertexAfter(size_t vertex, size_t parent) override {
+    if (parent == -1 && children_[vertex] > 1) {
       IsCutVertex(vertex);
     }
   }

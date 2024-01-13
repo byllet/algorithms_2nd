@@ -16,7 +16,7 @@ class FindBridgesFunction : public TinUpFunction {
     }
   }
 
-  void OnVertexAfter(size_t vertex, size_t p) override {}
+  void OnVertexAfter(size_t vertex, size_t parent) override {}
 
   std::vector<std::pair<size_t, size_t>> GetBridges() { return bridges_; }
 
