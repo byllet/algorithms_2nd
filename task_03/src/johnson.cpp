@@ -4,7 +4,7 @@
 #include <limits>
 #include <stdexcept>
 
-bool FordBellman(Graph<Vertex>& graph, size_t s,
+bool FordBellman(Graph<VertexWeighted>& graph, size_t s,
                  std::vector<long long>& distances) {
   long long INF = std::numeric_limits<long long>::max();
 
@@ -36,16 +36,16 @@ bool FordBellman(Graph<Vertex>& graph, size_t s,
   return true;
 }
 
-std::vector<std::vector<long long>> Johnson(Graph<Vertex>& graph) {
+std::vector<std::vector<long long>> Johnson(Graph<VertexWeighted>& graph) {
   long long INF = std::numeric_limits<long long>::max();
   size_t size = graph.Size();
   std::vector<std::vector<long long>> result(size,
                                              std::vector<long long>(size, INF));
 
   std::vector<long long> potencials(size + 1, 0);
-  Graph<Vertex> new_graph = graph;
+  Graph<VertexWeighted> new_graph = graph;
 
-  std::vector<Vertex> fictitious_vertex;
+  std::vector<VertexWeighted> fictitious_vertex;
   for (size_t i = 0; i < size; ++i) {
     fictitious_vertex.push_back({i, 0});
   }

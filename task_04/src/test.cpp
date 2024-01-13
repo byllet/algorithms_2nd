@@ -6,67 +6,86 @@
 #include <vector>
 
 TEST(Dijkstra, Simple) {
-  Graph<Vertex> wg1;
-  wg1.SetAdjacencyMatrix({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
-  ASSERT_EQ(Dijkstra(wg1, 0), (std::vector<long long>{0, 2, 3}));
-  ASSERT_EQ(Dijkstra(wg1, 1), (std::vector<long long>{2, 0, 1}));
-  ASSERT_EQ(Dijkstra(wg1, 2), (std::vector<long long>{3, 1, 0}));
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 0), (std::vector<long long>{0, 2, 3}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 1), (std::vector<long long>{2, 0, 1}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 2), (std::vector<long long>{3, 1, 0}));
+}
 
-  Graph<Vertex> wg2;
-  wg2.SetAdjacencyMatrix({{0, 2, 0}, {7, 0, 3}, {1, 5, 0}});
-  ASSERT_EQ(Dijkstra(wg2, 2), (std::vector<long long>{1, 3, 0}));
-  ASSERT_EQ(Dijkstra(wg2, 1), (std::vector<long long>{4, 0, 3}));
-  ASSERT_EQ(Dijkstra(wg2, 0), (std::vector<long long>{0, 2, 5}));
-
-  Graph<Vertex> wg3;
-  wg3.SetAdjacencyMatrix(
+TEST(Dijkstra, Simple1) {
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0, 2, 0}, {7, 0, 3}, {1, 5, 0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 2), (std::vector<long long>{1, 3, 0}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 1), (std::vector<long long>{4, 0, 3}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 0), (std::vector<long long>{0, 2, 5}));
+}
+TEST(Dijkstra, Simple3) {
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix(
       {{0, 6, 14, 11}, {7, 0, 9, 8}, {7, 0, 0, 10}, {15, 8, 7, 0}});
-  ASSERT_EQ(Dijkstra(wg3, 0), (std::vector<long long>({0, 6, 14, 11})));
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
+            (std::vector<long long>({0, 6, 14, 11})));
+}
 
+TEST(Dijkstra, WithNoWays) {
   long long INF = std::numeric_limits<long long>::max();
-  Graph<Vertex> wg4;
-  wg4.SetAdjacencyMatrix({{0, 0, 0}, {1, 0, 1}, {1, 1, 0}});
-  ASSERT_EQ(Dijkstra(wg4, 0), (std::vector<long long>({0, INF, INF})));
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0, 0, 0}, {1, 0, 1}, {1, 1, 0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
+            (std::vector<long long>({0, INF, INF})));
+}
+
+TEST(Dijkstra, OneVertex) {
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 0), (std::vector<long long>({0})));
 }
 
 TEST(Dijkstra, Medium) {
-  Graph<Vertex> wg1;
-  wg1.SetAdjacencyMatrix({{0, 8, 14, 6, 5, 0},
-                          {5, 0, 13, 9, 11, 18},
-                          {15, 1, 0, 5, 13, 18},
-                          {7, 12, 1, 0, 4, 6},
-                          {6, 1, 19, 14, 0, 10},
-                          {17, 3, 16, 8, 6, 0}});
-  ASSERT_EQ(Dijkstra(wg1, 0), (std::vector<long long>{0, 6, 7, 6, 5, 12}));
-  ASSERT_EQ(Dijkstra(wg1, 1), (std::vector<long long>{5, 0, 10, 9, 10, 15}));
-  ASSERT_EQ(Dijkstra(wg1, 2), (std::vector<long long>{6, 1, 0, 5, 9, 11}));
-  ASSERT_EQ(Dijkstra(wg1, 3), (std::vector<long long>{7, 2, 1, 0, 4, 6}));
-  ASSERT_EQ(Dijkstra(wg1, 4), (std::vector<long long>{6, 1, 11, 10, 0, 10}));
-  ASSERT_EQ(Dijkstra(wg1, 5), (std::vector<long long>{8, 3, 9, 8, 6, 0}));
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0, 8, 14, 6, 5, 0},
+                                     {5, 0, 13, 9, 11, 18},
+                                     {15, 1, 0, 5, 13, 18},
+                                     {7, 12, 1, 0, 4, 6},
+                                     {6, 1, 19, 14, 0, 10},
+                                     {17, 3, 16, 8, 6, 0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
+            (std::vector<long long>{0, 6, 7, 6, 5, 12}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 1),
+            (std::vector<long long>{5, 0, 10, 9, 10, 15}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 2),
+            (std::vector<long long>{6, 1, 0, 5, 9, 11}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 3),
+            (std::vector<long long>{7, 2, 1, 0, 4, 6}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 4),
+            (std::vector<long long>{6, 1, 11, 10, 0, 10}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 5),
+            (std::vector<long long>{8, 3, 9, 8, 6, 0}));
 }
 
 TEST(Dijkstra, Hard) {
-  Graph<Vertex> wg1;
-  wg1.SetAdjacencyMatrix({{0, 11, 7, 12, 13, 5, 19, 3, 16},
-                          {20, 0, 18, 15, 16, 19, 20, 17, 18},
-                          {14, 17, 0, 2, 7, 19, 6, 9, 11},
-                          {8, 4, 15, 0, 9, 15, 18, 3, 0},
-                          {5, 14, 15, 2, 0, 19, 13, 15, 4},
-                          {1, 8, 18, 12, 5, 0, 3, 8, 4},
-                          {4, 9, 13, 5, 15, 2, 0, 1, 9},
-                          {7, 6, 17, 17, 17, 10, 20, 0, 7},
-                          {6, 12, 12, 3, 12, 7, 2, 17, 0}});
-  ASSERT_EQ(Dijkstra(wg1, 0),
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix({{0, 11, 7, 12, 13, 5, 19, 3, 16},
+                                     {20, 0, 18, 15, 16, 19, 20, 17, 18},
+                                     {14, 17, 0, 2, 7, 19, 6, 9, 11},
+                                     {8, 4, 15, 0, 9, 15, 18, 3, 0},
+                                     {5, 14, 15, 2, 0, 19, 13, 15, 4},
+                                     {1, 8, 18, 12, 5, 0, 3, 8, 4},
+                                     {4, 9, 13, 5, 15, 2, 0, 1, 9},
+                                     {7, 6, 17, 17, 17, 10, 20, 0, 7},
+                                     {6, 12, 12, 3, 12, 7, 2, 17, 0}});
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
             (std::vector<long long>{0, 9, 7, 9, 10, 5, 8, 3, 9}));
-  ASSERT_EQ(Dijkstra(wg1, 6),
+  ASSERT_EQ(Dijkstra(weighted_graph, 6),
             (std::vector<long long>{3, 7, 10, 5, 7, 2, 0, 1, 6}));
-  ASSERT_EQ(Dijkstra(wg1, 8),
+  ASSERT_EQ(Dijkstra(weighted_graph, 8),
             (std::vector<long long>{5, 7, 12, 3, 9, 4, 2, 3, 0}));
 }
 
-TEST(Dijkstra, Imposible) {
-  Graph<Vertex> wg1;
-  wg1.SetAdjacencyMatrix(
+TEST(Dijkstra, Hard2) {
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix(
       {{0, 16, 9, 16, 10, 13, 9, 19, 13, 18, 11, 14, 5, 17, 8},
        {12, 0, 0, 15, 16, 13, 7, 9, 19, 12, 7, 5, 2, 2, 18},
        {16, 4, 0, 2, 8, 6, 20, 19, 7, 10, 0, 16, 15, 6, 10},
@@ -82,39 +101,46 @@ TEST(Dijkstra, Imposible) {
        {19, 8, 4, 10, 14, 1, 13, 11, 15, 6, 16, 10, 0, 4, 0},
        {14, 16, 11, 8, 9, 0, 12, 12, 15, 10, 16, 6, 10, 0, 3},
        {1, 9, 17, 13, 3, 10, 17, 17, 20, 11, 10, 12, 2, 8, 0}});
-  ASSERT_EQ(Dijkstra(wg1, 0),
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
             (std::vector<long long>{0, 10, 9, 11, 10, 6, 9, 12, 11, 11, 11, 13,
                                     5, 9, 8}));
-  ASSERT_EQ(Dijkstra(wg1, 13), (std::vector<long long>{4, 9, 9, 8, 6, 6, 7, 11,
-                                                       7, 7, 13, 6, 5, 0, 3}));
-  ASSERT_EQ(Dijkstra(wg1, 8), (std::vector<long long>{1, 2, 10, 8, 11, 1, 9, 11,
-                                                      0, 9, 9, 4, 4, 4, 9}));
+  ASSERT_EQ(
+      Dijkstra(weighted_graph, 13),
+      (std::vector<long long>{4, 9, 9, 8, 6, 6, 7, 11, 7, 7, 13, 6, 5, 0, 3}));
+  ASSERT_EQ(
+      Dijkstra(weighted_graph, 8),
+      (std::vector<long long>{1, 2, 10, 8, 11, 1, 9, 11, 0, 9, 9, 4, 4, 4, 9}));
+}
 
-  Graph<Vertex> wg2;
-  wg2.SetAdjacencyMatrix({{0, 30, 11, 3, 3, 22, 21, 10, 18, 25, 18, 7, 7},
-                          {5, 0, 1, 28, 16, 0, 14, 1, 24, 14, 4, 29, 22},
-                          {11, 22, 0, 12, 4, 4, 27, 0, 17, 8, 27, 23, 29},
-                          {9, 26, 6, 0, 0, 2, 15, 9, 3, 15, 28, 28, 24},
-                          {1, 24, 4, 8, 0, 23, 19, 29, 22, 7, 3, 9, 10},
-                          {26, 9, 16, 3, 10, 0, 21, 10, 26, 12, 23, 16, 21},
-                          {5, 20, 28, 15, 2, 21, 0, 12, 0, 17, 20, 2, 18},
-                          {6, 28, 30, 21, 25, 17, 24, 0, 3, 21, 24, 28, 7},
-                          {1, 30, 23, 0, 17, 23, 13, 6, 0, 13, 11, 26, 9},
-                          {17, 11, 25, 4, 1, 7, 22, 21, 0, 0, 13, 2, 26},
-                          {1, 3, 11, 12, 24, 10, 1, 4, 25, 30, 0, 25, 23},
-                          {19, 17, 21, 14, 23, 16, 12, 6, 5, 23, 0, 0, 15},
-                          {3, 8, 27, 22, 7, 19, 16, 24, 15, 16, 8, 26, 0}});
-  ASSERT_EQ(Dijkstra(wg2, 2), (std::vector<long long>{5, 10, 0, 8, 4, 4, 8, 11,
-                                                      11, 8, 7, 10, 12}));
-  ASSERT_EQ(Dijkstra(wg2, 1),
+TEST(Dijkstra, Hard3) {
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix(
+      {{0, 30, 11, 3, 3, 22, 21, 10, 18, 25, 18, 7, 7},
+       {5, 0, 1, 28, 16, 0, 14, 1, 24, 14, 4, 29, 22},
+       {11, 22, 0, 12, 4, 4, 27, 0, 17, 8, 27, 23, 29},
+       {9, 26, 6, 0, 0, 2, 15, 9, 3, 15, 28, 28, 24},
+       {1, 24, 4, 8, 0, 23, 19, 29, 22, 7, 3, 9, 10},
+       {26, 9, 16, 3, 10, 0, 21, 10, 26, 12, 23, 16, 21},
+       {5, 20, 28, 15, 2, 21, 0, 12, 0, 17, 20, 2, 18},
+       {6, 28, 30, 21, 25, 17, 24, 0, 3, 21, 24, 28, 7},
+       {1, 30, 23, 0, 17, 23, 13, 6, 0, 13, 11, 26, 9},
+       {17, 11, 25, 4, 1, 7, 22, 21, 0, 0, 13, 2, 26},
+       {1, 3, 11, 12, 24, 10, 1, 4, 25, 30, 0, 25, 23},
+       {19, 17, 21, 14, 23, 16, 12, 6, 5, 23, 0, 0, 15},
+       {3, 8, 27, 22, 7, 19, 16, 24, 15, 16, 8, 26, 0}});
+  ASSERT_EQ(
+      Dijkstra(weighted_graph, 2),
+      (std::vector<long long>{5, 10, 0, 8, 4, 4, 8, 11, 11, 8, 7, 10, 12}));
+  ASSERT_EQ(Dijkstra(weighted_graph, 1),
             (std::vector<long long>{5, 0, 1, 8, 5, 5, 5, 1, 11, 9, 4, 7, 12}));
-  ASSERT_EQ(Dijkstra(wg2, 0), (std::vector<long long>{0, 14, 9, 3, 3, 5, 18, 10,
-                                                      6, 17, 17, 7, 7}));
+  ASSERT_EQ(
+      Dijkstra(weighted_graph, 0),
+      (std::vector<long long>{0, 14, 9, 3, 3, 5, 18, 10, 6, 17, 17, 7, 7}));
 }
 
 TEST(Dijkstra, Unbelievable) {
-  Graph<Vertex> wg1;
-  wg1.SetAdjacencyMatrix(
+  Graph<VertexWeighted> weighted_graph;
+  weighted_graph.SetAdjacencyMatrix(
       {{0, 25, 21, 16, 21, 14, 26, 18, 25, 24,
         9, 15, 4,  19, 9,  22, 5,  22, 27, 23},
        {20, 0, 28, 23, 14, 9,  30, 20, 13, 14,
@@ -152,22 +178,22 @@ TEST(Dijkstra, Unbelievable) {
        {5, 15, 1,  20, 20, 19, 25, 21, 4,  3,
         9, 18, 16, 5,  4,  10, 24, 24, 16, 0}});
 
-  ASSERT_EQ(Dijkstra(wg1, 0),
+  ASSERT_EQ(Dijkstra(weighted_graph, 0),
             (std::vector<long long>{0, 12, 11, 13, 9, 8, 6, 6, 11, 11,
                                     9, 7,  4,  11, 8, 7, 5, 8, 7,  13}));
-  ASSERT_EQ(Dijkstra(wg1, 1),
+  ASSERT_EQ(Dijkstra(weighted_graph, 1),
             (std::vector<long long>{5,  0, 10, 8, 4, 6, 6, 6, 10, 5,
                                     14, 1, 4,  6, 6, 7, 5, 8, 5,  11}));
-  ASSERT_EQ(Dijkstra(wg1, 2),
+  ASSERT_EQ(Dijkstra(weighted_graph, 2),
             (std::vector<long long>{14, 7, 0,  6, 14, 16, 12, 16, 6,  15,
                                     11, 6, 11, 8, 11, 13, 15, 18, 15, 19}));
-  ASSERT_EQ(Dijkstra(wg1, 3),
+  ASSERT_EQ(Dijkstra(weighted_graph, 3),
             (std::vector<long long>{6,  1, 11, 0, 5, 10, 9, 12, 12, 6,
                                     15, 2, 5,  2, 8, 10, 6, 9,  6,  13}));
-  ASSERT_EQ(Dijkstra(wg1, 4),
+  ASSERT_EQ(Dijkstra(weighted_graph, 4),
             (std::vector<long long>{10, 5, 9, 4, 0,  4, 2, 2, 7, 5,
                                     16, 6, 4, 2, 10, 3, 1, 8, 1, 8}));
-  ASSERT_EQ(Dijkstra(wg1, 5),
+  ASSERT_EQ(Dijkstra(weighted_graph, 5),
             (std::vector<long long>{17, 10, 17, 9,  11, 0,  10, 10, 8,  7,
                                     12, 7,  13, 11, 13, 12, 12, 10, 12, 9}));
 }

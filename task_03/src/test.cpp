@@ -7,7 +7,7 @@
 #include "johnson.hpp"
 
 TEST(FordBellman, SimpleDistance) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
   std::vector<long long> distances;
   FordBellman(graph, 0, distances);
@@ -19,7 +19,7 @@ TEST(FordBellman, SimpleDistance) {
 }
 
 TEST(FordBellman, SimpleDistanceNegativeWeights) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, -1, 0}, {0, 0, -3}, {0, 0, 0}});
   std::vector<long long> distances;
   FordBellman(graph, 0, distances);
@@ -27,7 +27,7 @@ TEST(FordBellman, SimpleDistanceNegativeWeights) {
 }
 
 TEST(FordBellman, MediumDistance) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix(
       {{0, 6, 14, 11}, {7, 0, 9, 8}, {7, 0, 0, 10}, {15, 8, 7, 0}});
   std::vector<long long> distances;
@@ -36,7 +36,7 @@ TEST(FordBellman, MediumDistance) {
 }
 
 TEST(FordBellman, BigGraphDistance) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, 8, 14, 6, 5, 0},
                             {5, 0, 13, 9, 11, 18},
                             {15, 1, 0, 5, 13, 18},
@@ -49,34 +49,34 @@ TEST(FordBellman, BigGraphDistance) {
 }
 
 TEST(FordBellman, SimpleNotNegativeCycle) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
   std::vector<long long> distances;
   ASSERT_EQ(FordBellman(graph, 0, distances), true);
 }
 
 TEST(FordBellman, SimpleNegativeCycle) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, -1, -1}, {-1, 0, -1}, {-1, 1, -1}});
   std::vector<long long> distances;
   ASSERT_EQ(FordBellman(graph, 0, distances), false);
 }
 
 TEST(Johnson, Simple) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, 2, 100}, {2, 0, 1}, {100, 1, 0}});
   ASSERT_EQ(Johnson(graph), (std::vector<std::vector<long long>>{
                                 {0, 2, 3}, {2, 0, 1}, {3, 1, 0}}));
 }
 
 TEST(Johnson, NegativeCycle) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, -1, -1}, {-1, 0, -1}, {-1, 1, -1}});
   ASSERT_ANY_THROW(Johnson(graph));
 }
 
 TEST(Johnson, NegativeWeights) {
-  Graph<Vertex> graph;
+  Graph<VertexWeighted> graph;
   graph.SetAdjacencyMatrix({{0, -1, 0}, {0, 0, -3}, {0, 0, 0}});
   long long INF = std::numeric_limits<long long>::max();
   ASSERT_EQ(Johnson(graph),

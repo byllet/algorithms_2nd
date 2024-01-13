@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <stdexcept>
-#include <vector>
 
 RMQ::RMQ(std::vector<long long>& numbers) {
   size_t size = std::ceil(std::log2(numbers.size() + 1));

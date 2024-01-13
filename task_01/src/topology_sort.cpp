@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <stack>
+#include <stdexcept>
 #include <vector>
 
 #include "graph.hpp"
@@ -19,6 +20,14 @@ class StackFunction : public AbstractFunction {
 };
 
 std::vector<size_t> TopologySort(Graph<size_t>& graph, size_t vertex) {
+  if (graph.Size() == 0) {
+    return {};
+  }
+
+  if (vertex >= graph.Size()) {
+    throw std::runtime_error("vertex number out of range");
+  }
+
   graph.ResetColors();
   StackFunction stack_function;
   graph.DFS(vertex, -1, true, &stack_function);

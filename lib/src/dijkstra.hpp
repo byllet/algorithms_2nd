@@ -5,9 +5,12 @@
 
 #include "graph.hpp"
 
-struct Vertex {
+struct VertexWeighted {
   size_t number;
   long long weight;
 };
 
-std::vector<long long> Dijkstra(Graph<Vertex>& graph, size_t start_vertex);
+bool operator<(const VertexWeighted& vertex1, const VertexWeighted& vertex2);
+
+std::vector<long long> Dijkstra(Graph<VertexWeighted>& graph,
+                                size_t start_vertex);

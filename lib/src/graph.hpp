@@ -61,25 +61,25 @@ void Graph<T>::SetAdjacencyMatrix(
 }
 
 template <typename T>
-void Graph<T>::DFS(size_t vertex, size_t p, bool is_root,
-                   AbstractFunction* func) {
+void Graph<T>::DFS(size_t vertex, size_t parent, bool is_root,
+                   AbstractFunction* function) {
   colors_[vertex] = gray;
-  func->OnVertexBefore(vertex, p);
+  function->OnVertexBefore(vertex, parent);
 
   for (const auto& u : graph_[vertex]) {
-    if (u == p) {
+    if (u == parent) {
       continue;
     }
     if (colors_[u] == white) {
-      DFS(u, vertex, false, func);
-      func->OnEdgeNotVisited(vertex, u, is_root);
+      DFS(u, vertex, false, function);
+      function->OnEdgeNotVisited(vertex, u, is_root);
     } else {
-      func->OnEdgeVisited(vertex, u, is_root);
+      function->OnEdgeVisited(vertex, u, is_root);
     }
   }
 
   colors_[vertex] = black;
-  func->OnVertexAfter(vertex, p);
+  function->OnVertexAfter(vertex, parent);
 }
 
 template <typename T>

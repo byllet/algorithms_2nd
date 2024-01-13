@@ -11,6 +11,20 @@ TEST(LCA, Simple) {
   ASSERT_EQ(lca.GetLCA(1, 2), 0);
 }
 
+TEST(LCA, OneElement) {
+  Graph<size_t> tree;
+  tree.SetAdjacencyList({{}});
+  LCA lca(tree, 0);
+  ASSERT_EQ(lca.GetLCA(0, 0), 0);
+}
+
+TEST(LCA, Empty) {
+  Graph<size_t> tree;
+  tree.SetAdjacencyList({});
+  LCA lca(tree, 0);
+  ASSERT_EQ(lca.GetLCA(0, 0), 0);
+}
+
 TEST(LCA, Middle) {
   Graph<size_t> tree;
   tree.SetAdjacencyList({{1, 2}, {3, 4}, {5}, {}, {6}, {}, {}});
