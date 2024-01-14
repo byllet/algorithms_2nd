@@ -16,5 +16,6 @@ class LCA {
   std::vector<size_t> first_;
 
   void BuildTree(size_t i, size_t left, size_t right);
-  size_t MinFromTree(size_t i, size_t sl, size_t sr, size_t l, size_t r);
+  size_t MinFromTree(size_t i, size_t s_left, size_t s_right, size_t left,
+                     size_t right);
 };
